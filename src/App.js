@@ -1,8 +1,10 @@
 import React from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
+import About from './components/About'
 
 import { useState, useEffect } from 'react';
 import './App.css';
@@ -65,7 +67,7 @@ function App() {
 
   //Add Task
   const addTask = async (task) => {
-    const id = tasks.length + 1;
+    //const id = tasks.length + 1;
     const newTask = {...task}
     const res = await fetch('http://localhost:5000/tasks', {method: 'POST', 
                                                 headers:{
@@ -78,17 +80,27 @@ function App() {
   }
 
   return (
+    <Router>
       <div className="container">
         <Header title={`Task Tracker`} showForm={
           () => setShowAddTask(!showAddTask)}
           showAddButton={showAddTask}/>
-        {showAddTask && <AddTask onAddTask={addTask} />}
-        {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} 
-          toggleReminder={toggleReminder}/>
-        : 'No tasks'
-        }
+        
+        <Route path='/' exact render={(props) => (
+          <>
+            {showAddTask && <AddTask onAddTask={addTask} />}
+            {tasks.length > 0 ? (
+                      <Tasks tasks={tasks} 
+                             onDelete={deleteTask} 
+                             toggleReminder={toggleReminder}/>) : ('No Tasks')
+            }
+          </>
+        )} />
+
+        <Route path='/about' component={About} />
         <Footer />
       </div>
+      </Router>
   );
 }
 
