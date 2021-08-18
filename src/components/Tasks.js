@@ -1,7 +1,6 @@
 import TaskItem from './TaskItem'
-// import { useState } from 'react';
 
- const Tasks = ({tasks, onDelete, toggleReminder}) => {
+const Tasks = ({tasks, onDelete, toggleReminder}) => {
 
     return (
         <>

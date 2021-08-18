@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom'
 
 const Header = ({showForm, title, showAddButton}) => {
-//const Header = ({title}) => {
+
     const location = useLocation();
     return (
         <header className='header'>
@@ -26,15 +26,7 @@ Header.defaultProps = {
 Header.propTypes = {
     title:PropTypes.string,
     showForm:PropTypes.func
-    //title:PropTypes.string.isRequired
 }
-//          <h1 style={{color:'red', backgroundColor:'black', marginBottom:0}}>Task Tracker {props.title}</h1> 
-//<h3 style={headingStyle}>Sub header</h3>
-//CSS in JS
-// const headingStyle ={
-//     margin:0,
-//     color:'red',
-//     backgroundColor:'gold'
-// }
+
 
 export default Header;
