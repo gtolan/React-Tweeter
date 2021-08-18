@@ -5,8 +5,8 @@ import TaskItem from './TaskItem'
 
     return (
         <>
-         {tasks.map((task) =>(
-             <TaskItem key={task.id} 
+         {tasks.map((task, index) =>(
+             <TaskItem key={`task.id-${index}`} 
                 task={task}
                 onDelete={onDelete}
                 toggleReminder={toggleReminder}
