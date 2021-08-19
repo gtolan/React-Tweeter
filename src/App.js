@@ -91,11 +91,11 @@ const tasks = []
     // setTasks([...tasks, data])
   }
 
-  const todos = useStore(state => state.todos);
+  const todos = useStore();
   console.log(todos, 'tss-=todos')
 
   return (
-    <StoreProvider store={store}>
+    
     <Router>
      
       <div className="container">
@@ -104,23 +104,23 @@ const tasks = []
           showAddButton={showAddTask}/>
         
         <Route path='/' exact render={(props) => (
-          <>
-            {showAddTask && <AddTask onAddTask={addTask} />}
-            {tasks && tasks.length > 0 ? (
+          <StoreProvider store={store}>
+            {/* {showAddTask && <AddTask onAddTask={addTask} />}
+            {tasks && tasks.length > 0 ? ( */}
                       <Tasks 
                       // tasks={tasks} 
                              onDelete={deleteTask} 
                              toggleReminder={toggleReminder}/>
-             ) : ('No Tasks')
-            }
-          </>
+             {/* ) : ('No Tasks')
+            } */}
+            </StoreProvider>
         )} />
 
         <Route path='/about' component={About} />
         <Footer />
       </div>
       </Router>
-      </StoreProvider>
+  
     
   );
 }

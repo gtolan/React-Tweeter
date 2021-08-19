@@ -1,11 +1,13 @@
 import TaskItem from './TaskItem'
 import {useStore} from 'easy-peasy';
+import { Fragment } from 'react';
 
 const Tasks = ({onDelete, toggleReminder}) => {
-    const tasks = useStore(state => state.todos);
-    console.log(tasks, 'tss')
+    const tasks = useStore().getState().todos
+    const ts = tasks
+    console.log(tasks, ts, 'tss')
     return (
-        <>
+        <Fragment>
          {tasks && tasks.length > 0 ? (tasks.map((task, index) =>(
              <TaskItem key={`task.id-${index}`} 
                 task={task}
@@ -13,7 +15,7 @@ const Tasks = ({onDelete, toggleReminder}) => {
                 toggleReminder={toggleReminder}
              />
          ))) : 'NO tasks'}   
-        </>
+        </Fragment>
     )
 }
 
