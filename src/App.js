@@ -6,20 +6,32 @@ import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import About from './components/About'
 
+import model from './model'
+import {StoreProvider, createStore, useStore} from 'easy-peasy'
 import { useState, useEffect } from 'react';
 import './App.css';
 import './index.css';
 
+//console.log(model)
+const store = createStore(model)
+
+
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
-  const [tasks, setTasks] = useState([]);
-  useEffect(() => {
-      const getTasks = async () => {
-        const tasksFromServer = await fetchData()
-        setTasks(tasksFromServer)
-      }
-      getTasks()
-  },[])
+  // const [tasks, setTasks] = useState([]);
+  
+  
+const tasks = []
+  // setTasks(...todos)
+
+  // useEffect(() => {
+  //     const getTasks = async () => {
+  //       const tasksFromServer = await fetchData()
+  //       setTasks(tasksFromServer)
+  //     }
+  //     getTasks()
+  // },[])
+
 
   //Fetch Data
   const fetchData = async () => {
@@ -40,9 +52,9 @@ function App() {
   const deleteTask = async (id) => {
     await fetch(`http://localhost:5000/tasks/${id}`, 
                   {method:'DELETE'})
-    setTasks(
-      tasks.filter(task => task.id !== id)
-    )
+    // setTasks(
+    //   tasks.filter(task => task.id !== id)
+    // )
   }
 
   //Toggle Reminder
@@ -58,11 +70,11 @@ function App() {
                             )
     const data = await res.json()
 
-    setTasks(
-      tasks.map(task => task.id === id ? 
-        {...task, reminder: !data.reminder} : task)
-    )
-    console.log('toggle', id)
+    // setTasks(
+    //   tasks.map(task => task.id === id ? 
+    //     {...task, reminder: !data.reminder} : task)
+    // )
+    console.log('toggle', id, data)
   }
 
   //Add Task
@@ -76,11 +88,16 @@ function App() {
                                                 body:JSON.stringify(newTask)})
  
     const data = await res.json()                                                    
-    setTasks([...tasks, data])
+    // setTasks([...tasks, data])
   }
 
+  const todos = useStore(state => state.todos);
+  console.log(todos, 'tss-=todos')
+
   return (
+    <StoreProvider store={store}>
     <Router>
+     
       <div className="container">
         <Header title={`Task Tracker`} showForm={
           () => setShowAddTask(!showAddTask)}
@@ -89,10 +106,12 @@ function App() {
         <Route path='/' exact render={(props) => (
           <>
             {showAddTask && <AddTask onAddTask={addTask} />}
-            {tasks.length > 0 ? (
-                      <Tasks tasks={tasks} 
+            {tasks && tasks.length > 0 ? (
+                      <Tasks 
+                      // tasks={tasks} 
                              onDelete={deleteTask} 
-                             toggleReminder={toggleReminder}/>) : ('No Tasks')
+                             toggleReminder={toggleReminder}/>
+             ) : ('No Tasks')
             }
           </>
         )} />
@@ -101,17 +120,11 @@ function App() {
         <Footer />
       </div>
       </Router>
+      </StoreProvider>
+    
   );
 }
 
-//Class version
-// class App extends React.Component{
-//   render(){
-//     return  <div className="App">
-//               <Header/>
-//             </div>
-    
-//   }
-// }
+
 
 export default App;
