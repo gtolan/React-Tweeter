@@ -4,8 +4,7 @@ import { Fragment } from 'react';
 
 const Tasks = ({onDelete, toggleReminder}) => {
     const tasks = useStore().getState().todos
-    const ts = tasks
-    console.log(tasks, ts, 'tss')
+
     return (
         <Fragment>
          {tasks && tasks.length > 0 ? (tasks.map((task, index) =>(

@@ -95,7 +95,7 @@ const tasks = []
   console.log(todos, 'tss-=todos')
 
   return (
-    
+    <StoreProvider store={store}>
     <Router>
      
       <div className="container">
@@ -104,23 +104,20 @@ const tasks = []
           showAddButton={showAddTask}/>
         
         <Route path='/' exact render={(props) => (
-          <StoreProvider store={store}>
-            {/* {showAddTask && <AddTask onAddTask={addTask} />}
-            {tasks && tasks.length > 0 ? ( */}
+  
+ 
                       <Tasks 
                       // tasks={tasks} 
                              onDelete={deleteTask} 
                              toggleReminder={toggleReminder}/>
-             {/* ) : ('No Tasks')
-            } */}
-            </StoreProvider>
+            
         )} />
 
         <Route path='/about' component={About} />
         <Footer />
       </div>
       </Router>
-  
+      </StoreProvider>
     
   );
 }
